@@ -8,7 +8,7 @@ Use conda to set up the environment.
 
 ```bash
 conda env create -f environment.yml
-
+```
 Then download the database from google drive and move folder to carparkflask folder
 ```bash
 https://drive.google.com/file/d/13F1NYVELNHmICzTpdh9WA4k-LNQkD8ZH/view?usp=sharing
