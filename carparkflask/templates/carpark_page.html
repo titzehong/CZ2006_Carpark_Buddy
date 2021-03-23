@@ -1,0 +1,75 @@
+
+{% extends "layout.html" %}
+{% block content %}
+	
+
+	<h1>Showing Information For {{title}} </h1>
+	<br>
+	<h2>Carpark Forecasted Availability</h2>
+	<div>
+	{{ html_forecast }}
+	</div>
+
+	<h2>Carpark Availability Information</h2>
+	<form method="POST" action='/search_reroute'>
+		<table class="table">
+		    <thead>
+		        <tr>
+		            <th>Carpark Name</th>
+		            <th>Last Checked On</th>
+		            <th>Availability</th>
+		            <th>Total Lots</th>
+		            <th>Save Result</th>
+		        </tr>
+		    </thead>
+		    <tbody>
+
+				<tr>
+					<td>{{ carpark_time_info.carpark_name }}</td>
+					<td>{{ carpark_time_info.update_datetime }}</td>
+					<td>{{ carpark_time_info.lots_available }}</td>
+					<td>{{ carpark_time_info.total_lots }}</td>
+					<td><input type='checkbox' value={{carpark_time_info.carpark_name}} name='save_checkbox'></td>
+				<tr>
+       
+		    </tbody>
+		</table>
+		<input type='submit' value="Save Checked Carparks" name='submmited'>
+	</form>
+	<br>
+
+	<h2>Other Carpark Information</h2>
+	<table class="table">
+	    <thead>
+	        <tr>
+	            <th>Carpark Name</th>
+	            <th>Address</th>
+	            <th>Carpark Type</th>
+				<th>Parking System</th>
+				<th>Short Term Parking Available</th>
+				<th>Free Parking</th>
+				<th>Night Parking</th>
+				<th>No Carpark Decks</th>
+				<th>Gantry Height</th>
+				<th>Basement Carpark</th>
+
+	        </tr>
+	    </thead>
+	    <tbody>
+			<tr>
+				<td>{{ carpark.carpark_name }}</td>
+				<td>{{ carpark.address }}</td>
+				<td>{{ carpark.carpark_type }}</td>
+				<td>{{ carpark.type_of_parking_system }}</td>
+				<td>{{ carpark.short_term_parking }}</td>
+				<td>{{ carpark.free_parking }}</td>
+				<td>{{ carpark.night_parking }}</td>
+				<td>{{ carpark.carpark_decks }}</td>
+				<td>{{ carpark.gantry_heights }}</td>
+				<td>{{ carpark.carpark_basement }}</td>
+
+			<tr>
+	    </tbody>
+	</table>
+
+{% endblock content %}

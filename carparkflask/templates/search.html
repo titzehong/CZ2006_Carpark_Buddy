@@ -1,0 +1,75 @@
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+{% extends "layout.html" %}
+{% block content %}
+	
+	<!-- TODO: Need to wrap this into CSS to ensure it doesnt take up too much space
+	https://community.plotly.com/t/chart-layout-width-change-back-to-default-size-after-page-refresh/35268 -->	
+
+	{{ html_map }}
+
+
+    <div class="content-section">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Search</legend>
+
+                <div class="form-group">
+                    {{ form.carpark.label(class="form-control-label") }}
+                    {% if form.carpark.errors %}
+                        {{ form.carpark(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.carpark.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.carpark(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+
+    <div>
+		<!-- TODO: Make Save Buttoms buttons also-->	
+
+	    {% if display_carparks %}
+	    	<h1> Results </h1>
+	    	<form method="POST" action='/search_reroute'>
+				<table class="table">
+				    <thead>
+				        <tr>
+				            <th>Carpark Name</th>
+				            <th>Last Checked On</th>
+				            <th>Lots Available</th>
+				            <th>Total Lots</th>
+				            <th>Address</th>
+				            <th>View Info & Forecast</th>
+				            <th>Save Result</th>
+				        </tr>
+				    </thead>
+				    <tbody>
+						{% for cp in carparks %}
+							<tr>
+								<td>{{ cp.carpark_name }}</td>
+								<td>{{ cp.update_datetime }}</td>
+								<td>{{ cp.lots_available }}</td>
+								<td>{{ cp.total_lots }}</td>
+								<td>{{ cp.address }}</td>
+								<td><a href="{{ url_for('carpark_info', carpark_id=cp.id)}}" target="_blank">View</a></td>
+								<td><input type='checkbox' value={{cp.carpark_name}} name='save_checkbox'></td>
+							<tr>
+						{% endfor %}          
+				    </tbody>
+				</table>
+				<input type='submit' value="Save Checked Carparks" name='submmited'>
+			</form>
+		{% endif %}
+	</div>
+
+{% endblock content %}

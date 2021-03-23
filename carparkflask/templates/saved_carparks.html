@@ -1,0 +1,44 @@
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+{% extends "layout.html" %}
+{% block content %}
+	
+	<!-- TODO: Need to wrap this into CSS to ensure it doesnt take up too much space
+	https://community.plotly.com/t/chart-layout-width-change-back-to-default-size-after-page-refresh/35268 -->	
+
+	{{ html_map }}
+
+    <div>
+		<!-- TODO: Make Save Buttoms buttons also-->	
+
+	<h1> Saved Results </h1>
+	<form method="POST" action='/saved_carparks_reroute'>
+		<table class="table">
+		    <thead>
+		        <tr>
+		            <th>Carpark Name</th>
+		            <th>Last Checked On</th>
+		            <th>Available Lots</th>
+		            <th>Total Lots</th>
+		            <th>View Info & Forecast</th>
+		            <th>Remove Saved Carpark</th>
+		        </tr>
+		    </thead>
+		    <tbody>
+				{% for cp in carparks %}
+					<tr>
+						<td>{{ cp.carpark_name }}</td>
+						<td>{{ cp.update_datetime }}</td>
+						<td>{{ cp.lots_available }}</td>
+						<td>{{ cp.total_lots }}</td>
+						<td><a href="{{ url_for('carpark_info', carpark_id=cp.id)}}" target="_blank">View</a></td>
+						<td><input type='checkbox' value={{cp.carpark_name}} name='remove_checkbox'></td>
+					<tr>
+				{% endfor %}          
+		    </tbody>
+		</table>
+		<input type='submit' value="Remove Saved Carparks" name='submmited'>
+	</form>
+
+	</div>
+
+{% endblock content %}

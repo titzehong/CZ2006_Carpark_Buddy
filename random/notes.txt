@@ -1,0 +1,8 @@
+set FLASK_APP = main.py  # Main flask script
+
+# Templates
+templates are the html/css of each page in the web app
+
+Flask uses jinja2 for rendering templates (i guess vs javascript?), jinja2 lets us easily include variables from databases
+
+template inheritance to prevent repetition of boiler plate code
