@@ -57,8 +57,8 @@ def plot_map_from_postalCodes(PostalCodes, carpark_latlons):
 
 
     # Add Traces of User
-    fig.add_trace(go.Scattermapbox(lat = df['Lat'],lon = df['Long'],
-            name = "Car Park Locations", mode='markers',
+    fig.add_trace(go.Scattermapbox(lat = df['Lat'], lon = df['Long'],
+            name = "User Location", mode='markers',
             text = 'Address: '+df['Address'],
             marker = dict(color = 'red', size=10, opacity = 1)))
 
@@ -170,6 +170,30 @@ def get_forecast_plot(agg_df, cp, selected_datetime):
 
 """
 
+def get_forecast_idx(selected_idx, N):
+
+    if selected_idx<10:
+        left_idx = 0
+        right_idx = 21
+
+        left_highlight_idx = 0
+        right_highlight_idx = selected_idx+5
+
+    elif selected_idx>=N-10:
+        left_idx = N-21
+        right_idx = N
+
+        left_highlight_idx = selected_idx-5
+        right_highlight_idx = N
+
+    else:
+        left_idx = selected_idx-10
+        right_idx = selected_idx+11
+
+        left_highlight_idx = selected_idx-5
+        right_highlight_idx = selected_idx+5
+
+    return left_idx, right_idx, left_highlight_idx, right_highlight_idx
 
 def get_forecast_plot(agg_df, cp, selected_datetime):
     dow = selected_datetime.weekday()
@@ -184,26 +208,9 @@ def get_forecast_plot(agg_df, cp, selected_datetime):
 
     selected_idx = np.where(temp['mins_of_day']==motd)[0][0]
 
-    if selected_idx<10:
-        left_idx = 0
-        right_idx = 21
+    N = temp.shape[0]
 
-        left_highlight_idx = 0
-        right_highlight_idx = selected_idx+5
-
-    elif selected_idx>=temp.shape[0]-10:
-        left_idx = temp.shape[0]-21
-        right_idx = temp.shape[0]
-
-        left_highlight_idx = selected_idx-5
-        right_highlight_idx = temp.shape[0]
-
-    else:
-        left_idx = selected_idx-10
-        right_idx = selected_idx+11
-
-        left_highlight_idx = selected_idx-5
-        right_highlight_idx = selected_idx+5    
+    left_idx, right_idx, left_highlight_idx, right_highlight_idx = get_forecast_idx(selected_idx, N)  
 
     X = temp.iloc[left_idx:right_idx]['mins_of_day']
     Y = temp.iloc[left_idx:right_idx]['lots_available']
